@@ -26,7 +26,7 @@ public class Product implements Serializable {
 	private String image;
 	
 	@OneToMany(fetch =FetchType.EAGER, mappedBy = "idproduct")
-	private List<Answer> reviews;
+	private List<Review> reviews;
 
 	public Product() {
 		super();
