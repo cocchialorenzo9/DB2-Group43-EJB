@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import examples.model.User;
+import group43.entities.User;
 
 @Stateless
 public class UserService {

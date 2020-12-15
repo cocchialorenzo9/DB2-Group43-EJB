@@ -1,4 +1,4 @@
-package examples.model;
+package group43.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
