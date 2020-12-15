@@ -2,6 +2,12 @@
 <persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 	<persistence-unit name="DB2-Group43-EJB">
 		<jta-data-source>ProjectResource</jta-data-source>
+		<class>group43.entities.Answer</class>
+		<class>group43.entities.Product</class>
+		<class>group43.entities.Question</class>
+		<class>group43.entities.Questionnaire</class>
+		<class>group43.entities.QuestionnaireInteraction</class>
+		<class>group43.entities.Review</class>
 		<class>group43.entities.User</class>
 	</persistence-unit>
 </persistence>

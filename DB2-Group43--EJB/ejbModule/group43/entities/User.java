@@ -2,6 +2,9 @@ package group43.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import group43.utils.Roles;
+
 import java.util.List;
 
 /**
@@ -17,7 +20,7 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int iduser;
 
 	private String username;
 
@@ -25,83 +28,68 @@ public class User implements Serializable {
 
 	private String email;
 	
-	private String role;
+	private Roles role;
+	
+	@OneToMany(fetch =FetchType.EAGER, mappedBy = "iduser")
+	private List<Answer> answers;
+	
+	@OneToMany(fetch =FetchType.EAGER, mappedBy = "idcreator")
+	private List<Questionnaire> questionnaires;
+	
+	@OneToMany(fetch =FetchType.EAGER, mappedBy = "iduser")
+	private List<QuestionnaireInteraction> interactions;
+	
+	@OneToMany(fetch =FetchType.EAGER, mappedBy = "iduser")
+	private List<Review> reviews;
 	
 	
-
-
-	// Bidirectional many-to-one association to Mission
-	/*
-	 * Fetch type EAGER allows resorting the relationship list content also in the
-	 * client Web servlet after the creation of a new mission. If you leave the
-	 * default LAZY policy, the relationship is sorted only at the first access but
-	 * then adding a new mission does not trigger the reloading of data from the
-	 * database and thus the sort method in the client does not actually re-sort the
-	 * list of missions. MERGE is not cascaded because we will modify and merge only
-	 * username and surname attributes of the user and do not want to cascade
-	 * detached changes to relationship.
-	 */
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "reporter", cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-			CascadeType.REFRESH })
-	@OrderBy("date DESC")
-	private List<Mission> missions;
 
 	public User() {
 	}
 
-	public int getId() {
-		return this.id;
+	public int getIduser() {
+		return iduser;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getSurname() {
-		return this.surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setIduser(int iduser) {
+		this.iduser = iduser;
 	}
 
 	public String getUsername() {
-		return this.username;
+		return username;
 	}
 
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	public List<Mission> getMissions() {
-		return this.missions;
+	public String getPassword() {
+		return password;
 	}
 
-	public void addMission(Mission mission) {
-		getMissions().add(mission);
-		mission.setReporter(this);
-		// aligns both sides of the relationship
-		// if mission is new, invoking persist() on user cascades also to mission
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public void removeMission(Mission mission) {
-		getMissions().remove(mission);
+	public String getEmail() {
+		return email;
 	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Roles getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = Roles.getRoleByString(role);
+		if(this.role == Roles.NONE) {
+			System.err.println(this.iduser + " user:: can't understand role");
+		}
+	}
+
+	
 
 }
