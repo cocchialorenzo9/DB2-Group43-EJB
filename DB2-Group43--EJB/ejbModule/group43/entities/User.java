@@ -30,16 +30,16 @@ public class User implements Serializable {
 	
 	private Roles role;
 	
-	@OneToMany(fetch =FetchType.EAGER, mappedBy = "iduser")
+	@OneToMany(fetch =FetchType.EAGER, mappedBy = "user")
 	private List<Answer> answers;
 	
-	@OneToMany(fetch =FetchType.EAGER, mappedBy = "idcreator")
+	@OneToMany(fetch =FetchType.EAGER, mappedBy = "user")
 	private List<Questionnaire> questionnaires;
 	
-	@OneToMany(fetch =FetchType.EAGER, mappedBy = "iduser")
+	@OneToMany(fetch =FetchType.EAGER, mappedBy = "user")
 	private List<QuestionnaireInteraction> interactions;
 	
-	@OneToMany(fetch =FetchType.EAGER, mappedBy = "iduser")
+	@OneToMany(fetch =FetchType.EAGER, mappedBy = "user")
 	private List<Review> reviews;
 	
 	

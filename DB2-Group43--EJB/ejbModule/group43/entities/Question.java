@@ -27,7 +27,7 @@ public class Question implements Serializable {
 	@JoinColumn(name = "idquestionnaire")
 	private Questionnaire questionnaire;
 	
-	@OneToMany(fetch =FetchType.EAGER, mappedBy = "idquestion")
+	@OneToMany(fetch =FetchType.EAGER, mappedBy = "question")
 	private List<Answer> answer;
 
 	public Question() {

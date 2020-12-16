@@ -9,5 +9,6 @@
 		<class>group43.entities.QuestionnaireInteraction</class>
 		<class>group43.entities.Review</class>
 		<class>group43.entities.User</class>
+		<class>group43.entities.OffensiveWord</class>
 	</persistence-unit>
 </persistence>
