@@ -28,7 +28,8 @@ public class Questionnaire implements Serializable {
 	@JoinColumn(name = "idcreator")
 	private User user;
 	
-	@OneToOne(fetch =FetchType.EAGER, mappedBy = "questionnaire")
+	@OneToOne
+	@JoinColumn(name = "idquestionnaire")
 	private Product product;
 
 	public Questionnaire() {

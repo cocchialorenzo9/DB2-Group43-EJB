@@ -28,8 +28,7 @@ public class Product implements Serializable {
 	@OneToMany(fetch =FetchType.EAGER, mappedBy = "product")
 	private List<Review> reviews;
 	
-	@OneToOne
-	@JoinColumn(name = "idquestionnaire")
+	@OneToOne(fetch =FetchType.EAGER, mappedBy = "product")
 	private Questionnaire questionnaire;
 
 	public Product() {
