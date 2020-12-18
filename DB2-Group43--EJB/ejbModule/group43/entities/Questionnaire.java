@@ -2,8 +2,6 @@ package group43.entities;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
-
 import javax.persistence.*;
 
 /**
@@ -12,7 +10,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="questionnaire", schema = "db_project_db2")
-
 public class Questionnaire implements Serializable {
 
 	
@@ -29,7 +26,7 @@ public class Questionnaire implements Serializable {
 	private User user;
 	
 	@OneToOne
-	@JoinColumn(name = "idquestionnaire")
+	@JoinColumn(name = "idproduct")
 	private Product product;
 
 	public Questionnaire() {
@@ -52,5 +49,11 @@ public class Questionnaire implements Serializable {
 		this.date = date;
 	}
 	
+	public Product getProduct() {
+		return product;
+	}
    
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 }

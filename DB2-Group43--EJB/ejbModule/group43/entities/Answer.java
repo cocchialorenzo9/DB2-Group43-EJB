@@ -36,25 +36,25 @@ public class Answer implements Serializable {
 		return idanswer;
 	}
 
-
-
 	public void setIdanswer(int idanswer) {
 		this.idanswer = idanswer;
 	}
 	
-
 
 	public String getText() {
 		return text;
 	}
 
 
-
 	public void setText(String text) {
 		this.text = text;
 	}
 
-
+	public Answer(User user, Question question, String text) {
+		this.user = user;
+		this.question = question;
+		this.text = text;
+	}
 
 	public Answer() {
 		super();
