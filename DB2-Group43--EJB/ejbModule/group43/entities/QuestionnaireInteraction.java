@@ -1,9 +1,10 @@
 package group43.entities;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.*;
+
 
 /**
  * Entity implementation class for Entity: QuestionnaireInteraction
@@ -11,7 +12,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="questionnaire_interaction", schema = "db_project_db2")
-
 public class QuestionnaireInteraction implements Serializable {
 
 	
@@ -29,7 +29,7 @@ public class QuestionnaireInteraction implements Serializable {
 	@JoinColumn(name = "idquestionnaire")
 	private Questionnaire questionnaire;
 	
-	private Date logtimestamp;
+	private Timestamp logtimestamp;
 	
 	private boolean completed;
 	
@@ -48,11 +48,11 @@ public class QuestionnaireInteraction implements Serializable {
 	}
 
 
-	public Date getLogtimestamp() {
+	public Timestamp getLogtimestamp() {
 		return logtimestamp;
 	}
 
-	public void setLogtimestamp(Date logtimestamp) {
+	public void setLogtimestamp(Timestamp logtimestamp) {
 		this.logtimestamp = logtimestamp;
 	}
 
@@ -72,6 +72,11 @@ public class QuestionnaireInteraction implements Serializable {
 		this.score = score;
 	}
 	
-	
+	public QuestionnaireInteraction(User user, Questionnaire questionnaire, boolean completed, Timestamp date) {
+		this.user = user;
+		this.questionnaire = questionnaire;
+		this.completed = completed;
+		this.logtimestamp = date;
+	}
    
 }
