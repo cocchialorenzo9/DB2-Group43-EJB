@@ -20,8 +20,9 @@ public class AnswerService {
 		super();
 	}
 	
-	public void insertAnswer(int userId, String text, Question question) {
-		User user = em.find(User.class, userId);	
+	public void insertAnswer(int userId, String text, int questionId) {
+		User user = em.find(User.class, userId);
+		Question question = em.find(Question.class, questionId);
 		
 		System.out.println(question.getNumberquestion());
 		System.out.println(text);

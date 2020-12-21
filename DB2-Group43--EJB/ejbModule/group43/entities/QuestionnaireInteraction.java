@@ -12,6 +12,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="questionnaire_interaction", schema = "db_project_db2")
+@NamedQuery(name = "QuestionnaireInteraction.findLastInteraction", query = "SELECT i FROM QuestionnaireInteraction i WHERE i.logtimestamp = (SELECT MAX(i2.logtimestamp) FROM QuestionnaireInteraction i2 WHERE i2.user.iduser = :userId AND i2.questionnaire.idquestionnaire = :questionnaireId)")
+
 public class QuestionnaireInteraction implements Serializable {
 
 	
@@ -34,6 +36,12 @@ public class QuestionnaireInteraction implements Serializable {
 	private boolean completed;
 	
 	private int score;
+	
+	private int age;
+	
+	private String expertise_level;
+	
+	private String sex;
 
 	public QuestionnaireInteraction() {
 		super();
@@ -77,6 +85,30 @@ public class QuestionnaireInteraction implements Serializable {
 		this.questionnaire = questionnaire;
 		this.completed = completed;
 		this.logtimestamp = date;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getExpertise_level() {
+		return expertise_level;
+	}
+
+	public void setExpertise_level(String expertise_level) {
+		this.expertise_level = expertise_level;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
    
 }

@@ -8,6 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import group43.entities.Question;
+import group43.exceptions.InvalidQuestionnaireException;
+import group43.exceptions.QuestionsException;
 
 
 @Stateless
@@ -20,27 +22,25 @@ public class QuestionService {
 		super();
 	}
 	
-	public List<Question> findQuestionsByQuestionnaireId(int questionnaireId){
+	public List<Question> findQuestionsByQuestionnaireId(int questionnaireId) throws InvalidQuestionnaireException{
 		
 		List<Question> questions = null;
 		try {
 			questions = em.createNamedQuery("Question.findQuestionsByQuestionnaireId", Question.class).setParameter("questId", questionnaireId).getResultList();
 
 		} catch (PersistenceException e) {
-			//throw new ProjectException("Cannot load projects");
-			System.out.println("persistence problem");
+			throw new InvalidQuestionnaireException("Cannot load questions for the current questionnaire");
 		}
 		return questions;
 	}
 	
-	public Question findQuestionByQuestionnaireAndNumber(int questionnaireId, int numQuestion) {
+	public Question findQuestionByQuestionnaireAndNumber(int questionnaireId, int numQuestion) throws QuestionsException {
 		Question questions = null;
 		try {
 			questions = em.createNamedQuery("Question.findQuestionsByQuestionnaireIdAndNumber", Question.class).setParameter("questId", questionnaireId).setParameter("numQuest", numQuestion).getSingleResult();
 
 		} catch (PersistenceException e) {
-			//throw new ProjectException("Cannot load projects");
-			System.out.println("persistence problem");
+			throw new QuestionsException("Cannot load questions");
 		}
 		return questions;
 	}

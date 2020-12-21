@@ -25,10 +25,7 @@ public class QuestionnaireService {
 	
 	public Questionnaire findQuestionnaireOfTheDay() {
 		List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q where CAST(q.date AS date) = CURRENT_DATE", Questionnaire.class).getResultList();
-		
-		System.out.println(questionnaires);
-		System.out.println(questionnaires.size());
-		
+				
 		if( !questionnaires.isEmpty()) {
 			Questionnaire questionnaireOfTheDay = questionnaires.get(0);
 			return questionnaireOfTheDay;
