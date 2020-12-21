@@ -49,6 +49,10 @@ public class Review implements Serializable {
 		this.text = text;
 	}
 	
+	public User getUser() {
+		return user;
+	}
+	
 	
    
 }

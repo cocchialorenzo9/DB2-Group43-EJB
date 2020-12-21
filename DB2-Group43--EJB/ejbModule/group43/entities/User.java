@@ -14,7 +14,8 @@ import java.util.List;
 @Entity
 @Table(name = "user", schema = "db_project_db2")
 @NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2")
-
+@NamedQuery(name = "User.findUserByUsername", query = "SELECT r FROM User r  WHERE r.username = :usrn")
+@NamedQuery(name = "User.findUserByEmail", query = "SELECT r FROM User r  WHERE r.email = :mail")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -28,6 +29,7 @@ public class User implements Serializable {
 
 	private String email;
 	
+	@Enumerated(EnumType.STRING)
 	private Roles role;
 	
 	@OneToMany(fetch =FetchType.EAGER, mappedBy = "user")
@@ -45,6 +47,13 @@ public class User implements Serializable {
 	
 
 	public User() {
+	}
+	
+	public User(String username, String password, String email) {
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.role = Roles.USER;
 	}
 
 	public int getIduser() {
