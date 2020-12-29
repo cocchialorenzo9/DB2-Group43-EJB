@@ -23,11 +23,11 @@ public class QuestionnaireInteraction implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idquestionnaire_interaction;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "iduser")
 	private User user;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idquestionnaire")
 	private Questionnaire questionnaire;
 	

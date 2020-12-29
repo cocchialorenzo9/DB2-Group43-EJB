@@ -19,13 +19,11 @@ public class Answer implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idanswer;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.ALL)
 	@JoinColumn(name = "iduser")
 	private User user;
-	
-	//TODO: fix multiple foreign key (?)
-	
-	@ManyToOne
+		
+	@ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "idquestion")
 	private Question question;
 	
@@ -59,5 +57,23 @@ public class Answer implements Serializable {
 	public Answer() {
 		super();
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+	
+	
    
 }

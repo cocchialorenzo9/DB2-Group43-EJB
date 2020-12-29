@@ -2,6 +2,8 @@ package group43.entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -12,7 +14,6 @@ import javax.persistence.*;
 @Table(name="questionnaire", schema = "db_project_db2")
 public class Questionnaire implements Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -21,16 +22,28 @@ public class Questionnaire implements Serializable {
 	
 	private Date date;
 		
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idcreator")
 	private User user;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "idproduct")
 	private Product product;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire", cascade = CascadeType.ALL)
+	private List<QuestionnaireInteraction> interactions;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire", cascade = CascadeType.ALL)
+	private List<Question> questions;
 
 	public Questionnaire() {
 		super();
+	}
+	
+	public Questionnaire(Date date, User user, Product product) {
+		this.date = date;
+		this.user = user;
+		this.product = product;
 	}
 
 	public int getIdquestionnaire() {
@@ -55,5 +68,29 @@ public class Questionnaire implements Serializable {
    
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<QuestionnaireInteraction> getInteractions() {
+		return interactions;
+	}
+
+	public void setInteractions(List<QuestionnaireInteraction> interactions) {
+		this.interactions = interactions;
+	}
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
 	}
 }

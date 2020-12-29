@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import group43.entities.Question;
+import group43.entities.Questionnaire;
 import group43.exceptions.InvalidQuestionnaireException;
 import group43.exceptions.QuestionsException;
 
@@ -43,6 +44,16 @@ public class QuestionService {
 			throw new QuestionsException("Cannot load questions");
 		}
 		return questions;
+	}
+	
+	public void newQuestions(Questionnaire questionnaire, List<String> questions) {		
+		for(int i = 0; i < questions.size(); i++) {
+			String text = questions.get(i);
+			
+			Question newQuestion = new Question(text, questionnaire, i);
+			
+			em.persist(newQuestion);
+		}
 	}
 	
 }

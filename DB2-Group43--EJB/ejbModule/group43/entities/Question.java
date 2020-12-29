@@ -28,13 +28,19 @@ public class Question implements Serializable {
 	@JoinColumn(name = "idquestionnaire")
 	private Questionnaire questionnaire;
 	
-	@OneToMany(fetch =FetchType.EAGER, mappedBy = "question")
+	@OneToMany(fetch =FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
 	private List<Answer> answer;
 	
 	private int numberquestion;
 
 	public Question() {
 		super();
+	}
+	
+	public Question(String text, Questionnaire questionnaire, int numberQuestion) {
+		this.text = text;
+		this.questionnaire = questionnaire;
+		this.numberquestion = numberQuestion;
 	}
 
 	public int getIdquestion() {

@@ -19,7 +19,7 @@ public class Review implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idreview;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "idproduct")
 	private Product product;
 	

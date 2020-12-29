@@ -25,14 +25,20 @@ public class Product implements Serializable {
 	
 	private String image;
 	
-	@OneToMany(fetch =FetchType.EAGER, mappedBy = "product")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
 	private List<Review> reviews;
 	
-	@OneToOne(fetch =FetchType.EAGER, mappedBy = "product")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "product",
+			cascade = CascadeType.ALL)
 	private Questionnaire questionnaire;
 
 	public Product() {
 		super();
+	}
+	
+	public Product(String name, String image) {
+		this.name = name;
+		this.image = image;
 	}
 
 	public int getIdproduct() {
@@ -61,6 +67,14 @@ public class Product implements Serializable {
 	
 	public List<Review> getReviews() {
 		return reviews;
+	}
+	
+	public Questionnaire getQuestionnaire() {
+		return questionnaire;
+	}
+
+	public void setQuestionnaire(Questionnaire questionnaire) {
+		this.questionnaire = questionnaire;
 	}
    
 	
