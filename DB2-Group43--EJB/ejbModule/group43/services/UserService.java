@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import group43.exceptions.CredentialsException;
+import group43.exceptions.UpdateProfileException;
 
 import javax.persistence.NonUniqueResultException;
 import group43.entities.User;
@@ -82,7 +83,7 @@ public class UserService {
 		em.persist(user); // makes also mission object managed via cascading
 		
 	}
-	/*
+	
 	public void updateProfile(User u) throws UpdateProfileException {
 		try {
 			em.merge(u);
@@ -90,5 +91,4 @@ public class UserService {
 			throw new UpdateProfileException("Could not change profile");
 		}
 	}
-	*/
 }

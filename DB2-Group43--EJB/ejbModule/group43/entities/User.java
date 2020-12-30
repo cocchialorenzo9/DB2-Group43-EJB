@@ -29,6 +29,8 @@ public class User implements Serializable {
 
 	private String email;
 	
+	private boolean blocked;
+	
 	@Enumerated(EnumType.STRING)
 	private Roles role;
 	
@@ -99,6 +101,12 @@ public class User implements Serializable {
 		}
 	}
 
-	
+	public boolean isBlocked() {
+		return blocked;
+	}
+
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
 
 }

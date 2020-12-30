@@ -23,7 +23,7 @@ public class QuestionService {
 		super();
 	}
 	
-	public List<Question> findQuestionsByQuestionnaireId(int questionnaireId) throws InvalidQuestionnaireException{
+public List<Question> findQuestionsByQuestionnaireId(int questionnaireId) throws InvalidQuestionnaireException{
 		
 		List<Question> questions = null;
 		try {
