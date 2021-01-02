@@ -11,7 +11,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="product", schema = "db_project_db2")
-
+@NamedQuery(name="Product.findByAdminId", query="SELECT p "
+		+ "FROM Product p JOIN p.questionnaire q "
+		+ "WHERE p.questionnaire.user.iduser = :iduser "
+		+ "ORDER BY p.questionnaire.date ASC")
 public class Product implements Serializable {
 
 	
@@ -28,8 +31,9 @@ public class Product implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
 	private List<Review> reviews;
 	
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "product",
-			cascade = CascadeType.ALL)
+	// managing persist manually for the bug
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "product",
+			cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH})
 	private Questionnaire questionnaire;
 
 	public Product() {

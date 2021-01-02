@@ -26,7 +26,9 @@ public class Questionnaire implements Serializable {
 	@JoinColumn(name = "idcreator")
 	private User user;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	// managing persist manually for the bug
+	@OneToOne(fetch = FetchType.EAGER, 
+			cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinColumn(name = "idproduct")
 	private Product product;
 	
