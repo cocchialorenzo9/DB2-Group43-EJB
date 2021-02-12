@@ -36,18 +36,7 @@ public class ProductService {
 		} catch (PersistenceException e) {
 			throw new ProductException("Can not find all the products by id of the admin");
 		}
-		
-		// force merging
-		for(Product p: allProducts) {
-			Product fakeP = em.find(Product.class, p.getIdproduct());
-			System.out.println("Contains product " + fakeP.getName() + "? " + em.contains(fakeP));
-			System.out.println("Contains its questionnaire? " + em.contains(fakeP.getQuestionnaire()));
-			System.out.println("Product " + p.getName() + " has questionnaire " + p.getQuestionnaire().getIdquestionnaire());
-			
-		}
-		
-		// em.merge(allProducts);
-		
+				
 		return allProducts;
 	}
 	
@@ -59,7 +48,7 @@ public class ProductService {
 		
 		em.persist(product);
 		
-		System.out.println("insertedProduct");
+		System.out.println("insertedProduct " + name);
 		
 		return product;
 	}

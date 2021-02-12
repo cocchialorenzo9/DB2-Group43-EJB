@@ -55,16 +55,15 @@ public class QuestionnaireService {
 		
 		return !questionnaires.isEmpty();
 	}
-	public Questionnaire newQuestionnaire(Date date, int iduser, Product product) {
+	public Questionnaire newQuestionnaire(Date date, int iduser, int idproduct) {
 		// get the admin class
 		User admin = em.find(User.class, iduser);
+		Product product = em.find(Product.class, idproduct);
 		
 		Questionnaire questionnaire = new Questionnaire(date, admin, product);
+		product.setQuestionnaire(questionnaire);
 		
 		em.persist(questionnaire);
-		
-		System.out.println("questionnaire related to productid=" + product.getIdproduct() + " persisted? " +
-								em.contains(questionnaire));
 		
 		return questionnaire;
 	}

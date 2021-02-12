@@ -11,7 +11,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="questionnaire", schema = "db_project_db2")
+@Table(name="questionnaire")
 public class Questionnaire implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,16 +26,25 @@ public class Questionnaire implements Serializable {
 	@JoinColumn(name = "idcreator")
 	private User user;
 	
-	// managing persist manually for the bug
+	/**
+	 *  product entity is persisted automatically. When Questionnaire is created, a 
+	 *  Product instance is already persisted and in the db. 
+	 */
 	@OneToOne(fetch = FetchType.EAGER, 
-			cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH})
+			cascade = CascadeType.ALL)
+//			cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinColumn(name = "idproduct")
 	private Product product;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire", cascade = CascadeType.ALL)
 	private List<QuestionnaireInteraction> interactions;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire", cascade = CascadeType.ALL)
+	/**
+	 * questions instances are not already present in the persistence context when the questionnaire
+	 * is persisted, for this reason PERSIST is not listed in the cascades.
+	 */
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire", 
+			cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH})
 	private List<Question> questions;
 
 	public Questionnaire() {
@@ -94,5 +103,9 @@ public class Questionnaire implements Serializable {
 
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+	}
+	
+	public void addQuestion(Question question) {
+		this.questions.add(question);
 	}
 }

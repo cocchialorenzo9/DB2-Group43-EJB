@@ -51,6 +51,7 @@ public List<Question> findQuestionsByQuestionnaireId(int questionnaireId) throws
 			String text = questions.get(i);
 			
 			Question newQuestion = new Question(text, questionnaire, i);
+			questionnaire.addQuestion(newQuestion);
 			
 			em.persist(newQuestion);
 		}
