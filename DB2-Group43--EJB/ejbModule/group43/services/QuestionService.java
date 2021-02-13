@@ -50,7 +50,7 @@ public List<Question> findQuestionsByQuestionnaireId(int questionnaireId) throws
 		for(int i = 0; i < questions.size(); i++) {
 			String text = questions.get(i);
 			
-			Question newQuestion = new Question(text, questionnaire, i);
+			Question newQuestion = new Question(text, questionnaire);
 			questionnaire.addQuestion(newQuestion);
 			
 			em.persist(newQuestion);

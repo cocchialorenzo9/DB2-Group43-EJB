@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="questionnaire_interaction", schema = "db_project_db2")
 @NamedQuery(name = "QuestionnaireInteraction.findLastInteraction", query = "SELECT i FROM QuestionnaireInteraction i WHERE i.logtimestamp = (SELECT MAX(i2.logtimestamp) FROM QuestionnaireInteraction i2 WHERE i2.user.iduser = :userId AND i2.questionnaire.idquestionnaire = :questionnaireId)")
-@NamedQuery(name = "QuestionnaireInteraction.findInteractionsOfTheDay", query = "SELECT i FROM QuestionnaireInteraction i WHERE CAST(i.logtimestamp AS date) = CURRENT_DATE AND i.completed = 1" )
+@NamedQuery(name = "QuestionnaireInteraction.findInteractionsOfTheDay", query = "SELECT i FROM QuestionnaireInteraction i WHERE CAST(i.logtimestamp AS date) = CURRENT_DATE AND i.completed = 1 ORDER BY i.score DESC" )
 public class QuestionnaireInteraction implements Serializable {
 
 	

@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="question", schema = "db_project_db2")
-@NamedQuery(name = "Question.findQuestionsByQuestionnaireId", query = "SELECT q FROM Question q WHERE q.questionnaire.idquestionnaire = :questId")
+@NamedQuery(name = "Question.findQuestionsByQuestionnaireId", query = "SELECT q FROM Question q WHERE q.questionnaire.idquestionnaire = :questId ORDER BY q.idquestion")
 @NamedQuery(name = "Question.findQuestionsByQuestionnaireIdAndNumber", query = "SELECT q FROM Question q WHERE q.questionnaire.idquestionnaire = :questId AND q.numberquestion = :numQuest")
 public class Question implements Serializable {
 
@@ -30,17 +30,14 @@ public class Question implements Serializable {
 	
 	@OneToMany(fetch =FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
 	private List<Answer> answer;
-	
-	private int numberquestion;
 
 	public Question() {
 		super();
 	}
 	
-	public Question(String text, Questionnaire questionnaire, int numberQuestion) {
+	public Question(String text, Questionnaire questionnaire) {
 		this.text = text;
 		this.questionnaire = questionnaire;
-		this.numberquestion = numberQuestion;
 	}
 
 	public int getIdquestion() {
@@ -58,13 +55,9 @@ public class Question implements Serializable {
 	public void setText(String text) {
 		this.text = text;
 	}
-
-	public int getNumberquestion() {
-		return numberquestion;
-	}
-
-	public void setNumberquestion(int numberquestion) {
-		this.numberquestion = numberquestion;
+	
+	public List<Answer> getAnswers() {
+		return answer;
 	}
 	
 	

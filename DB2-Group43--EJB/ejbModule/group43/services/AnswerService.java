@@ -28,10 +28,12 @@ public class AnswerService {
 		User user = em.find(User.class, userId);
 		Question question = em.find(Question.class, questionId);
 		
-		System.out.println(question.getNumberquestion());
-		System.out.println(text);
-		
 		Answer answer = new Answer(user, question, text);
+		
+		//update both side of the relationship
+		question.getAnswers().add(answer);
+		user.getAnswers().add(answer);
+		
 		em.persist(answer);
 		
 		System.out.println("Method insertAnswer");

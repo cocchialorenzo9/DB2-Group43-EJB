@@ -45,6 +45,7 @@ public class QuestionnaireService {
 	}
 	
 	public boolean isAlreadyDayOfAnotherQuestionnaire(Date date) {
+		System.out.println(date);
 		Query findQuestionnaire = em.createQuery(
 				"SELECT q "
 				+ "FROM Questionnaire q "
@@ -53,8 +54,12 @@ public class QuestionnaireService {
 		findQuestionnaire.setParameter("date", date);
 		List<Questionnaire> questionnaires = findQuestionnaire.getResultList();
 		
+		for(int i=0; i< questionnaires.size(); i++)
+			System.out.println(" finded__ " + i + " : " + questionnaires.get(i).getDate());
+		
 		return !questionnaires.isEmpty();
 	}
+	
 	public Questionnaire newQuestionnaire(Date date, int iduser, int idproduct) {
 		// get the admin class
 		User admin = em.find(User.class, iduser);

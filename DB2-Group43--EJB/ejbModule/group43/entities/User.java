@@ -8,7 +8,7 @@ import group43.utils.Roles;
 import java.util.List;
 
 /**
- * The persistent class for the usertable database table.
+ * The persistent class for the user table database table.
  * 
  */
 @Entity
@@ -56,14 +56,11 @@ public class User implements Serializable {
 		this.password = password;
 		this.email = email;
 		this.role = Roles.USER;
+		this.blocked = false;
 	}
 
 	public int getIduser() {
 		return iduser;
-	}
-
-	public void setIduser(int iduser) {
-		this.iduser = iduser;
 	}
 
 	public String getUsername() {
@@ -107,6 +104,14 @@ public class User implements Serializable {
 
 	public void setBlocked(boolean blocked) {
 		this.blocked = blocked;
+	}
+	
+	public List<QuestionnaireInteraction> getInteractions() {
+		return interactions;
+	}
+	
+	public List<Answer> getAnswers() {
+		return answers;
 	}
 
 }
