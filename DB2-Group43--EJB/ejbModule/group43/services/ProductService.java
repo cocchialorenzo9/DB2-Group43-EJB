@@ -6,11 +6,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 
 import group43.entities.Product;
 import group43.exceptions.ProductException;
-import group43.utils.ListCaster;
 
 @Stateless
 public class ProductService {

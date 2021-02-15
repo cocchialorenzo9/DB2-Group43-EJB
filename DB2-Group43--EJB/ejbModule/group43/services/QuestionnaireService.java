@@ -7,11 +7,12 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.PersistenceException;
 
 import group43.entities.Product;
 import group43.entities.Questionnaire;
 import group43.entities.User;
+import group43.exceptions.QuestionnaireException;
 @Stateless
 public class QuestionnaireService {
 
@@ -33,10 +34,20 @@ public class QuestionnaireService {
 		return product.getQuestionnaire();
 	}
 	
-	public Questionnaire findQuestionnaireOfTheDay() {
-		List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q where CAST(q.date AS date) = CURRENT_DATE", Questionnaire.class).getResultList();
+	public Questionnaire findQuestionnaireOfTheDay() throws QuestionnaireException {
+		// List<Questionnaire> questionnaires = em.createQuery("Select q from Questionnaire q where CAST(q.date AS date) = CURRENT_DATE", Questionnaire.class).getResultList();
 				
-		if( !questionnaires.isEmpty()) {
+		List<Questionnaire> questionnaires = null;
+		
+		try{
+			questionnaires = em.createNamedQuery("Questionnaire.findQuestionnaireOfTheDay", Questionnaire.class)
+					.getResultList();
+		} catch (PersistenceException e) {
+			throw new QuestionnaireException("Can't retrieve today's questionnaire");
+		}
+				
+		
+		if(!questionnaires.isEmpty()) {
 			Questionnaire questionnaireOfTheDay = questionnaires.get(0);
 			return questionnaireOfTheDay;
 		}
@@ -44,18 +55,19 @@ public class QuestionnaireService {
 			return null;
 	}
 	
-	public boolean isAlreadyDayOfAnotherQuestionnaire(Date date) {
-		System.out.println(date);
-		Query findQuestionnaire = em.createQuery(
-				"SELECT q "
-				+ "FROM Questionnaire q "
-				+ "WHERE q.date = :date");
-		// dates have to be the same because hours, minutes, and seconds are set to 0 everytime
-		findQuestionnaire.setParameter("date", date);
-		List<Questionnaire> questionnaires = findQuestionnaire.getResultList();
+	public boolean isAlreadyDayOfAnotherQuestionnaire(Date date) throws QuestionnaireException {		
+		List<Questionnaire> questionnaires = null;
+		
+		try {
+			questionnaires = em.createNamedQuery("Questionnaire.findQuestionnaireByDate", Questionnaire.class)
+					.setParameter("date", date)
+					.getResultList();
+		} catch (PersistenceException e) {
+			throw new QuestionnaireException("Can't retrieve the questionnaire for the date " + date.toString());
+		}
 		
 		for(int i=0; i< questionnaires.size(); i++)
-			System.out.println(" finded__ " + i + " : " + questionnaires.get(i).getDate());
+			System.out.println(" found__ " + i + " : " + questionnaires.get(i).getDate());
 		
 		return !questionnaires.isEmpty();
 	}

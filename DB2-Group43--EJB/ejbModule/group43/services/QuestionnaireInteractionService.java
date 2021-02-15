@@ -7,20 +7,17 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 
 import group43.entities.Questionnaire;
 import group43.entities.QuestionnaireInteraction;
 import group43.entities.User;
-import group43.utils.ListCaster;
 import group43.exceptions.LastInteractionException;
 import group43.exceptions.QuestionnaireInteractionException;
 import group43.exceptions.UpdateInteractionException;
-@Stateless
 
+@Stateless
 public class QuestionnaireInteractionService {
 	
-
 	@PersistenceContext(unitName = "DB2-Group43-EJB")
 	private EntityManager em;
 	
@@ -32,7 +29,8 @@ public class QuestionnaireInteractionService {
 		List<QuestionnaireInteraction> qIList = null;
 		try {
 			qIList = em.createNamedQuery("QuestionnaireInteraction.findInteractionsOfTheDay", QuestionnaireInteraction.class)
-					.setHint("javax.persistence.cache.storeMode", "REFRESH").getResultList();
+					.setHint("javax.persistence.cache.storeMode", "REFRESH")
+					.getResultList();
 		} catch (PersistenceException e) {
 			throw new QuestionnaireInteractionException ("Could not find questionnaire interaction");
 		}
@@ -40,19 +38,15 @@ public class QuestionnaireInteractionService {
 	}
 
 	
-	public List<QuestionnaireInteraction> findInteractionsByQuestionnaireId(int idquestionnaire){
-		Query findAllInteractions = em.createQuery(
-				"SELECT q "
-				+ "FROM QuestionnaireInteraction q "
-				+ "WHERE q.questionnaire.idquestionnaire = :idquestionnaire");
-		findAllInteractions.setParameter("idquestionnaire", idquestionnaire);
+	public List<QuestionnaireInteraction> findInteractionsByQuestionnaireId(int idquestionnaire) throws QuestionnaireInteractionException{
 		
 		List<QuestionnaireInteraction> qIList = null;
 		try {
-			qIList = ListCaster.castList(QuestionnaireInteraction.class, findAllInteractions.getResultList());
-		} catch (ClassCastException e) {
-			System.out.println("Problems in casting questionnaire interactions");
-			// BadCastInteractionsException
+			qIList = em.createNamedQuery("QuestionnaireInteraction.findInteractionsByQuestionnaireId", QuestionnaireInteraction.class)
+					.setParameter("idquest", idquestionnaire)
+					.getResultList();
+		} catch (PersistenceException e) {
+			throw new QuestionnaireInteractionException("There was some error while retrieving the interactions for this questionnaire");
 		}
 		
 		return qIList;
@@ -92,7 +86,9 @@ public class QuestionnaireInteractionService {
 		QuestionnaireInteraction interaction = null;
 		try {
 			interaction = em.createNamedQuery("QuestionnaireInteraction.findLastInteraction", QuestionnaireInteraction.class)
-					.setParameter("userId", userId).setParameter("questionnaireId", questionnaireId).getSingleResult();
+					.setParameter("userId", userId)
+					.setParameter("questionnaireId", questionnaireId)
+					.getSingleResult();
 
 		} catch (PersistenceException e) {
 			if(interaction == null)
@@ -107,7 +103,10 @@ public class QuestionnaireInteractionService {
 		
 		QuestionnaireInteraction interaction = null;
 		try {
-			interaction = em.createNamedQuery("QuestionnaireInteraction.findLastInteraction", QuestionnaireInteraction.class).setParameter("userId", userId).setParameter("questionnaireId", questionnaireId).getSingleResult();
+			interaction = em.createNamedQuery("QuestionnaireInteraction.findLastInteraction", QuestionnaireInteraction.class)
+					.setParameter("userId", userId)
+					.setParameter("questionnaireId", questionnaireId)
+					.getSingleResult();
 		} catch (PersistenceException e) {
 			throw new LastInteractionException("Cannot load the last interaction");
 		}

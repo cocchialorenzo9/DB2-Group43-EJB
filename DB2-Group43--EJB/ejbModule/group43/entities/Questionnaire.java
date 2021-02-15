@@ -12,6 +12,14 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="questionnaire")
+@NamedQuery(name = "Questionnaire.findQuestionnaireOfTheDay", query = 
+		"SELECT q "
+		+ "FROM Questionnaire q "
+		+ "WHERE q.date = CURRENT_DATE")
+@NamedQuery(name = "Questionnaire.findQuestionnaireByDate", query = 
+		"SELECT q "
+		+ "FROM Questionnaire q "
+		+ "WHERE q.date = :date")
 public class Questionnaire implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -22,7 +30,7 @@ public class Questionnaire implements Serializable {
 	
 	private Date date;
 		
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "idcreator")
 	private User user;
 	
@@ -30,20 +38,18 @@ public class Questionnaire implements Serializable {
 	 *  product entity is persisted automatically. When Questionnaire is created, a 
 	 *  Product instance is already persisted and in the db. 
 	 */
-	@OneToOne(fetch = FetchType.EAGER, 
-			cascade = CascadeType.ALL)
-//			cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH})
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idproduct")
 	private Product product;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL)
 	private List<QuestionnaireInteraction> interactions;
 	
 	/**
 	 * questions instances are not already present in the persistence context when the questionnaire
 	 * is persisted, for this reason PERSIST is not listed in the cascades.
 	 */
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire", 
+	@OneToMany(mappedBy = "questionnaire", 
 			cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH})
 	private List<Question> questions;
 

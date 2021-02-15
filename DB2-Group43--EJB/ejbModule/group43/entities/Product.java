@@ -28,11 +28,11 @@ public class Product implements Serializable {
 	
 	private String image;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
 	private List<Review> reviews;
 	
 	// managing persist manually
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "product",
+	@OneToOne(mappedBy = "product",
 			cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
 	private Questionnaire questionnaire;
 

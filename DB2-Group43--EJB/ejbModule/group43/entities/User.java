@@ -8,7 +8,7 @@ import group43.utils.Roles;
 import java.util.List;
 
 /**
- * The persistent class for the user table database table.
+ * The persistent class for the usertable database table.
  * 
  */
 @Entity
@@ -34,16 +34,16 @@ public class User implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Roles role;
 	
-	@OneToMany(fetch =FetchType.EAGER, mappedBy = "user")
+	@OneToMany(mappedBy = "user")
 	private List<Answer> answers;
 	
 	@OneToMany(fetch =FetchType.EAGER, mappedBy = "user")
 	private List<Questionnaire> questionnaires;
 	
-	@OneToMany(fetch =FetchType.EAGER, mappedBy = "user")
+	@OneToMany(mappedBy = "user")
 	private List<QuestionnaireInteraction> interactions;
 	
-	@OneToMany(fetch =FetchType.EAGER, mappedBy = "user")
+	@OneToMany(mappedBy = "user")
 	private List<Review> reviews;
 	
 	
@@ -62,6 +62,7 @@ public class User implements Serializable {
 	public int getIduser() {
 		return iduser;
 	}
+
 
 	public String getUsername() {
 		return username;
@@ -113,5 +114,6 @@ public class User implements Serializable {
 	public List<Answer> getAnswers() {
 		return answers;
 	}
+
 
 }

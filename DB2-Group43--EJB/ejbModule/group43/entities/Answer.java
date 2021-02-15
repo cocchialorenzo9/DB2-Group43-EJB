@@ -9,7 +9,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="answer", schema = "db_project_db2")
-
+@NamedQuery(name = "Answer.findAnswersByQuestionnaireId", query = 
+	"SELECT a "
+	+ "FROM Answer a JOIN a.question q JOIN q.questionnaire quest "
+	+ "WHERE quest.idquestionnaire = :idquest")
 public class Answer implements Serializable {
 
 	
@@ -19,11 +22,11 @@ public class Answer implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idanswer;
 	
-	@ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "iduser")
 	private User user;
 		
-	@ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.REMOVE)
+	@ManyToOne
 	@JoinColumn(name = "idquestion")
 	private Question question;
 	

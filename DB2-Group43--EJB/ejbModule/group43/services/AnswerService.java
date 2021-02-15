@@ -6,10 +6,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import group43.entities.*;
-import group43.utils.ListCaster;
+import group43.exceptions.AnswersException;
 
 
 @Stateless
@@ -40,19 +41,15 @@ public class AnswerService {
 		System.out.println("Is answer object managed?  " + em.contains(answer));
 	}
 	
-	public List<Answer> findAnswersByQuestionnaireId(int idquestionnaire){
-		Query findAllAnswers = em.createQuery(
-				"SELECT a "
-				+ "FROM Answer a "
-				+ "WHERE a.question.questionnaire.idquestionnaire = :idquestionnaire");
-		findAllAnswers.setParameter("idquestionnaire", idquestionnaire);
-		
+	public List<Answer> findAnswersByQuestionnaireId(int idquestionnaire) throws AnswersException{
 		List<Answer> answerList = null;
+		
 		try {
-			answerList = ListCaster.castList(Answer.class, findAllAnswers.getResultList());
-		} catch (ClassCastException e) {
-			System.out.println("Problems in casting questionnaire answers");
-			// BadCastAnsersException
+			answerList = em.createNamedQuery("Answer.findAnswersByQuestionnaireId", Answer.class)
+					.setParameter("idquest", idquestionnaire)
+					.getResultList();
+		} catch (PersistenceException e) {
+			throw new AnswersException("Can't retrieve the answers of this questionnaire");
 		}
 		
 		return answerList;

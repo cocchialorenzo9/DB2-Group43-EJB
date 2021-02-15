@@ -13,7 +13,11 @@ import javax.persistence.*;
 @Entity
 @Table(name="questionnaire_interaction", schema = "db_project_db2")
 @NamedQuery(name = "QuestionnaireInteraction.findLastInteraction", query = "SELECT i FROM QuestionnaireInteraction i WHERE i.logtimestamp = (SELECT MAX(i2.logtimestamp) FROM QuestionnaireInteraction i2 WHERE i2.user.iduser = :userId AND i2.questionnaire.idquestionnaire = :questionnaireId)")
-@NamedQuery(name = "QuestionnaireInteraction.findInteractionsOfTheDay", query = "SELECT i FROM QuestionnaireInteraction i WHERE CAST(i.logtimestamp AS date) = CURRENT_DATE AND i.completed = 1 ORDER BY i.score DESC" )
+@NamedQuery(name = "QuestionnaireInteraction.findInteractionsOfTheDay", query = "SELECT i FROM QuestionnaireInteraction i WHERE CAST(i.logtimestamp AS date) = CURRENT_DATE AND i.completed = 1" )
+@NamedQuery(name = "QuestionnaireInteraction.findInteractionsByQuestionnaireId", query = 
+		"SELECT qi "
+		+ "FROM QuestionnaireInteraction qi JOIN qi.questionnaire q "
+		+ "WHERE q.idquestionnaire = :idquest")
 public class QuestionnaireInteraction implements Serializable {
 
 	
@@ -23,11 +27,11 @@ public class QuestionnaireInteraction implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idquestionnaire_interaction;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumn(name = "iduser")
 	private User user;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "idquestionnaire")
 	private Questionnaire questionnaire;
 	
@@ -117,3 +121,4 @@ public class QuestionnaireInteraction implements Serializable {
 	}
 
 }
+
