@@ -51,7 +51,7 @@ public class QuestionnaireInteractionService {
 		try {
 			qIList = ListCaster.castList(QuestionnaireInteraction.class, findAllInteractions.getResultList());
 		} catch (ClassCastException e) {
-			System.out.println("Problems in casring questionnaire interactions");
+			System.out.println("Problems in casting questionnaire interactions");
 			// BadCastInteractionsException
 		}
 		
@@ -86,21 +86,22 @@ public class QuestionnaireInteractionService {
 		}
 	}
 	
+	
 	public QuestionnaireInteraction findLastInteraction(int userId, int questionnaireId) throws LastInteractionException {
-		List<QuestionnaireInteraction> interactions = null;
+		
+		QuestionnaireInteraction interaction = null;
 		try {
-			interactions = em.createNamedQuery("QuestionnaireInteraction.findLastInteraction", QuestionnaireInteraction.class).setParameter("userId", userId).setParameter("questionnaireId", questionnaireId).getResultList();
+			interaction = em.createNamedQuery("QuestionnaireInteraction.findLastInteraction", QuestionnaireInteraction.class)
+					.setParameter("userId", userId).setParameter("questionnaireId", questionnaireId).getSingleResult();
 
 		} catch (PersistenceException e) {
+			if(interaction == null)
+				return null;
 			throw new LastInteractionException("Cannot load the last interaction");
 		}
 		
-		if(!interactions.isEmpty())
-			return interactions.get(0);
-		else
-			return null;
+		return interaction;
 	}
-	
 	
 	public void updateStatisticalSection(int userId, int questionnaireId, int age, String sex, String explevel) throws UpdateInteractionException, LastInteractionException {
 		
@@ -119,6 +120,7 @@ public class QuestionnaireInteractionService {
 			interaction.setSex(sex);
 		
 		interaction.setCompleted(true);
+		
 		try {
 			em.flush(); // ensures status updated in the database as soon as possible
 		} catch (PersistenceException e) {

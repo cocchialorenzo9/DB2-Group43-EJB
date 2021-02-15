@@ -11,8 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="question", schema = "db_project_db2")
-@NamedQuery(name = "Question.findQuestionsByQuestionnaireId", query = "SELECT q FROM Question q WHERE q.questionnaire.idquestionnaire = :questId ORDER BY q.idquestion")
-@NamedQuery(name = "Question.findQuestionsByQuestionnaireIdAndNumber", query = "SELECT q FROM Question q WHERE q.questionnaire.idquestionnaire = :questId AND q.numberquestion = :numQuest")
+@NamedQuery(name = "Question.findQuestionsByQuestionnaireId", query = "SELECT q FROM Question q WHERE q.questionnaire.idquestionnaire = :questId")
 public class Question implements Serializable {
 
 	

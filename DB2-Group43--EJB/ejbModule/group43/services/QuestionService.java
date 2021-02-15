@@ -35,17 +35,6 @@ public List<Question> findQuestionsByQuestionnaireId(int questionnaireId) throws
 		return questions;
 	}
 	
-	public Question findQuestionByQuestionnaireAndNumber(int questionnaireId, int numQuestion) throws QuestionsException {
-		Question questions = null;
-		try {
-			questions = em.createNamedQuery("Question.findQuestionsByQuestionnaireIdAndNumber", Question.class).setParameter("questId", questionnaireId).setParameter("numQuest", numQuestion).getSingleResult();
-
-		} catch (PersistenceException e) {
-			throw new QuestionsException("Cannot load questions");
-		}
-		return questions;
-	}
-	
 	public void newQuestions(Questionnaire questionnaire, List<String> questions) {		
 		for(int i = 0; i < questions.size(); i++) {
 			String text = questions.get(i);
