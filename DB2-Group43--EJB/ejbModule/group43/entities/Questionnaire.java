@@ -2,6 +2,7 @@ package group43.entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -43,7 +44,7 @@ public class Questionnaire implements Serializable {
 	private Product product;
 	
 	@OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL)
-	private List<QuestionnaireInteraction> interactions;
+	private List<QuestionnaireInteraction> interactions = new ArrayList<>();
 	
 	/**
 	 * questions instances are not already present in the persistence context when the questionnaire
@@ -51,7 +52,7 @@ public class Questionnaire implements Serializable {
 	 */
 	@OneToMany(mappedBy = "questionnaire", 
 			cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH})
-	private List<Question> questions;
+	private List<Question> questions = new ArrayList<>();
 
 	public Questionnaire() {
 		super();

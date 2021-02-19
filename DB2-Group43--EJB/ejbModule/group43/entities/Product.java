@@ -1,6 +1,7 @@
 package group43.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -11,6 +12,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="product", schema = "db_project_db2")
+@NamedQuery(name = "Product.findAll", query = 
+		"SELECT p "
+		+ "FROM Product p "
+		+ "ORDER BY p.questionnaire.date ASC")
 @NamedQuery(name="Product.findByAdminId", query="SELECT p "
 		+ "FROM Product p JOIN p.questionnaire q "
 		+ "WHERE p.questionnaire.user.iduser = :iduser "
@@ -29,7 +34,7 @@ public class Product implements Serializable {
 	private String image;
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
-	private List<Review> reviews;
+	private List<Review> reviews = new ArrayList<>();
 	
 	// managing persist manually
 	@OneToOne(mappedBy = "product",

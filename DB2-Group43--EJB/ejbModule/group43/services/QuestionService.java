@@ -10,7 +10,6 @@ import javax.persistence.PersistenceException;
 import group43.entities.Question;
 import group43.entities.Questionnaire;
 import group43.exceptions.InvalidQuestionnaireException;
-import group43.exceptions.QuestionsException;
 
 
 @Stateless
@@ -35,7 +34,9 @@ public List<Question> findQuestionsByQuestionnaireId(int questionnaireId) throws
 		return questions;
 	}
 	
-	public void newQuestions(Questionnaire questionnaire, List<String> questions) {		
+	public void newQuestions(int idquestionnaire, List<String> questions) {
+		Questionnaire questionnaire = em.find(Questionnaire.class, idquestionnaire);
+		
 		for(int i = 0; i < questions.size(); i++) {
 			String text = questions.get(i);
 			

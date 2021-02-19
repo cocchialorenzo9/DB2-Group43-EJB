@@ -25,6 +25,18 @@ public class ProductService {
 		return product;
 	}
 	
+	public List<Product> findAll() throws ProductException {
+		List<Product> allProducts = null;
+		try {
+			allProducts = em.createNamedQuery("Product.findAll", Product.class)
+					.getResultList();
+		} catch (PersistenceException e) {
+			throw new ProductException("Can not find any product");
+		}
+				
+		return allProducts;
+	}
+	
 	public List<Product> findProductsByCreatorId(int idcreator) throws ProductException {		
 		List<Product> allProducts = null;
 		try {
@@ -38,9 +50,7 @@ public class ProductService {
 		return allProducts;
 	}
 	
-	public Product newProduct(String name, String image) {		
-		System.out.println("Adding product " + name);
-		
+	public Product newProduct(String name, String image) {				
 		// create a new product and persist it
 		Product product = new Product(name, image);
 		

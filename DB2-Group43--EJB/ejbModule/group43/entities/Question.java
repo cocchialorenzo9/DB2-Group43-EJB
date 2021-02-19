@@ -2,6 +2,8 @@ package group43.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,7 +30,7 @@ public class Question implements Serializable {
 	private Questionnaire questionnaire;
 	
 	@OneToMany(fetch =FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
-	private List<Answer> answer;
+	private List<Answer> answer = new ArrayList<>();
 
 	public Question() {
 		super();

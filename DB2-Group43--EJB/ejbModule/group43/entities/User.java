@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import group43.utils.Roles;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,16 +36,16 @@ public class User implements Serializable {
 	private Roles role;
 	
 	@OneToMany(mappedBy = "user")
-	private List<Answer> answers;
+	private List<Answer> answers = new ArrayList<>();
 	
 	@OneToMany(fetch =FetchType.EAGER, mappedBy = "user")
-	private List<Questionnaire> questionnaires;
+	private List<Questionnaire> questionnaires = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user")
-	private List<QuestionnaireInteraction> interactions;
+	private List<QuestionnaireInteraction> interactions = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user")
-	private List<Review> reviews;
+	private List<Review> reviews = new ArrayList<>();
 	
 	
 
@@ -115,5 +116,13 @@ public class User implements Serializable {
 		return answers;
 	}
 
+	public List<Questionnaire> getQuestionnaires() {
+		return questionnaires;
+	}
 
+	public void setQuestionnaires(List<Questionnaire> questionnaires) {
+		this.questionnaires = questionnaires;
+	}
+
+	
 }

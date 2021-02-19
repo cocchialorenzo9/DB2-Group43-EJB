@@ -73,12 +73,14 @@ public class QuestionnaireService {
 	}
 	
 	public Questionnaire newQuestionnaire(Date date, int iduser, int idproduct) {
-		// get the admin class
+		// get the admin class and the product one
 		User admin = em.find(User.class, iduser);
 		Product product = em.find(Product.class, idproduct);
+		// managed state
 		
 		Questionnaire questionnaire = new Questionnaire(date, admin, product);
 		product.setQuestionnaire(questionnaire);
+		admin.getQuestionnaires().add(questionnaire);
 		
 		em.persist(questionnaire);
 		
