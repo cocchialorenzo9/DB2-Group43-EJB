@@ -26,6 +26,11 @@ public class AnswerService {
 	
 	public void insertAnswer(int userId, String text, int questionId) {
 		User user = em.find(User.class, userId);
+		
+		// checking the correctness of the insertion process
+		if(user.isBlocked())
+				return;
+		
 		Question question = em.find(Question.class, questionId);
 		
 		Answer answer = new Answer(user, question, text);

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="questionnaire_interaction", schema = "db_project_db2")
 @NamedQuery(name = "QuestionnaireInteraction.findLastInteraction", query = "SELECT i FROM QuestionnaireInteraction i WHERE i.logtimestamp = (SELECT MAX(i2.logtimestamp) FROM QuestionnaireInteraction i2 WHERE i2.user.iduser = :userId AND i2.questionnaire.idquestionnaire = :questionnaireId)")
-@NamedQuery(name = "QuestionnaireInteraction.findInteractionsOfTheDay", query = "SELECT i FROM QuestionnaireInteraction i WHERE CAST(i.logtimestamp AS date) = CURRENT_DATE AND i.completed = 1" )
+@NamedQuery(name = "QuestionnaireInteraction.findInteractionsOfTheDay", query = "SELECT i FROM QuestionnaireInteraction i WHERE CAST(i.logtimestamp AS date) = CURRENT_DATE AND i.completed = 1 ORDER BY i.score DESC" )
 @NamedQuery(name = "QuestionnaireInteraction.findInteractionsByQuestionnaireId", query = 
 		"SELECT qi "
 		+ "FROM QuestionnaireInteraction qi JOIN qi.questionnaire q "
@@ -38,7 +38,6 @@ public class QuestionnaireInteraction implements Serializable {
 	private Timestamp logtimestamp;
 	
 	private boolean completed;
-	
 	
 	private int score;
 	
@@ -90,6 +89,16 @@ public class QuestionnaireInteraction implements Serializable {
 		this.questionnaire = questionnaire;
 		this.completed = completed;
 		this.logtimestamp = date;
+	}
+	
+	public QuestionnaireInteraction(User user, Questionnaire questionnaire, boolean completed, Timestamp date, int age,  String explevel, String sex) {
+		this.user = user;
+		this.questionnaire = questionnaire;
+		this.completed = completed;
+		this.logtimestamp = date;
+		this.age = age;
+		this.expertise_level = explevel;
+		this.sex = sex;
 	}
 
 	public int getAge() {

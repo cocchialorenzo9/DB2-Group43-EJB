@@ -52,8 +52,13 @@ public class QuestionnaireInteractionService {
 		return qIList;
 	}
 	
-	public void insertInteraction(int userId, int questionnaireId) {
-		User user = em.find(User.class, userId);	
+	public void insertInteractionWithoutStatistics(int userId, int questionnaireId) {
+		User user = em.find(User.class, userId);
+		
+		// checking the correctness of the insertion process
+		if(user.isBlocked())
+				return;
+		
 		Questionnaire questionnaire = em.find(Questionnaire.class, questionnaireId);
 		Timestamp date = new Timestamp(System.currentTimeMillis());
 		
@@ -69,8 +74,35 @@ public class QuestionnaireInteractionService {
 
 	}
 	
+	public void insertInteractionWithStatistics(int userId, int questionnaireId, int age, String sex, String explevel) {
+		User user = em.find(User.class, userId);
+		
+		// checking the correctness of the insertion process
+		if(user.isBlocked())
+				return;
+		
+		Questionnaire questionnaire = em.find(Questionnaire.class, questionnaireId);
+		Timestamp date = new Timestamp(System.currentTimeMillis());
+		
+		//create interaction
+		QuestionnaireInteraction interaction = new QuestionnaireInteraction(user, questionnaire, true, date, age, explevel, sex);
+		
+		//update both size of the relationships
+		user.getInteractions().add(interaction);
+		questionnaire.getInteractions().add(interaction);
+		
+		//persist the new entity
+		em.persist(interaction);
+
+	}
+	
 	public void UpdateInteraction(int interactionId) throws LastInteractionException {
 		QuestionnaireInteraction interaction = em.find(QuestionnaireInteraction.class, interactionId);
+		
+		// checking the correctness of the insertion process
+		if(interaction.getUser().isBlocked())
+				return;
+		
 		interaction.setLogtimestamp(new Timestamp(System.currentTimeMillis()));
 		
 		try {
@@ -99,17 +131,13 @@ public class QuestionnaireInteractionService {
 		return interaction;
 	}
 	
-	public void updateStatisticalSection(int userId, int questionnaireId, int age, String sex, String explevel) throws UpdateInteractionException, LastInteractionException {
+	public void updateStatisticalSection(int interactionId, int age, String sex, String explevel) throws UpdateInteractionException {
 		
-		QuestionnaireInteraction interaction = null;
-		try {
-			interaction = em.createNamedQuery("QuestionnaireInteraction.findLastInteraction", QuestionnaireInteraction.class)
-					.setParameter("userId", userId)
-					.setParameter("questionnaireId", questionnaireId)
-					.getSingleResult();
-		} catch (PersistenceException e) {
-			throw new LastInteractionException("Cannot load the last interaction");
-		}
+		QuestionnaireInteraction interaction = em.find(QuestionnaireInteraction.class, interactionId);
+		
+		// checking the correctness of the insertion process
+		if(interaction.getUser().isBlocked())
+				return;
 		
 		if(age != 0)
 			interaction.setAge(age);
@@ -123,7 +151,7 @@ public class QuestionnaireInteractionService {
 		try {
 			em.flush(); // ensures status updated in the database as soon as possible
 		} catch (PersistenceException e) {
-			throw new LastInteractionException("Cannot update the last interaction");
+			throw new UpdateInteractionException("Cannot update the last interaction");
 		}
 	}
 	
